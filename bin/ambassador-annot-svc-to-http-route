@@ -15,5 +15,14 @@ const docs = input.map(in_ => in_.kind === 'List' ? in_.items : in_)
   .flat(1)
   .filter(doc => doc.kind === 'Service')
 
-const out = docs.map(svcToHTTPRoute).filter(Boolean)
+let parentRef = {
+  kind: argv['parent-ref-kind'],
+  group: argv['parent-ref-group'],
+  name: argv['parent-ref-name'],
+  namespace: argv['parent-ref-namespace'],
+}
+
+const out = docs.map(doc =>
+  svcToHTTPRoute(doc, Object.values(parentRef).filter(Boolean).length === 0 ? [] : [parentRef])
+).filter(Boolean)
 console.log(JSON.stringify(out))

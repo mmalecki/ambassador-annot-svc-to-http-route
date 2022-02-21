@@ -1,7 +1,7 @@
 'use strict'
 const yaml = require('js-yaml')
 
-module.exports = function (svc) {
+module.exports = function (svc, parentRefs) {
   if (!svc.kind === 'Service') throw new TypeError(`Expected \`kind: Service\`, received \`kind: ${svc.kind}\``)
   const annot = svc?.metadata?.annotations?.['getambassador.io/config']
   if (!annot) return null
@@ -17,7 +17,7 @@ module.exports = function (svc) {
       namespace: svc.metadata.namespace,
     },
     spec: {
-      parentRefs: [],
+      parentRefs: parentRefs,
       rules: [
         {
           backendRefs: [
