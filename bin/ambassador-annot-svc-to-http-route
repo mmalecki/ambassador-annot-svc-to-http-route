@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+const yargs = require('yargs/yargs')
+const { hideBin } = require('yargs/helpers')
+
+const yaml = require('js-yaml')
+const fs = require('fs')
+const svcToHTTPRoute = require('../ambassador-annot-svc-to-http-route.js')
+
+const argv = yargs(hideBin(process.argv)).argv
+
+const input =
+  yaml.loadAll(fs.readFileSync(argv[0] || '/dev/stdin', 'utf8'))
+
+const docs = input.map(in_ => in_.kind === 'List' ? in_.items : in_)
+  .flat(1)
+  .filter(doc => doc.kind === 'Service')
+
+const out = docs.map(svcToHTTPRoute).filter(Boolean)
+console.log(JSON.stringify(out))

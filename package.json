@@ -1,0 +1,15 @@
+{
+  "name": "ambassador-annot-svc-to-http-route",
+  "author": "Maciej Małecki <me@mmalecki.com>",
+  "version": "0.0.0",
+  "description": "Convert Kubernetes `Service` with a `getambassador.io/config` annotation to a `HTTPRoute`",
+  "main": "ambassador-svcs-to-httproutes.js",
+  "license": "MIT",
+  "bin": {
+    "ambassador-annot-svc-to-http-route": "./bin/ambassador-annot-svc-to-http-route"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "yargs": "^17.3.1"
+  }
+}
